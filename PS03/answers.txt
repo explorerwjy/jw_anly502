@@ -2,23 +2,53 @@
 # Please provide your answers to the questions below:
 
 # Question #1:
-1a: (instancetype, per-hour-cost)
-1b: 
-1c:
+    (instancetype, per-hour-cost)
+1a: (,,)
+1b: (,,)
+1c: (c3.8xlarge,$1.68,$6881.28)
 
 # Question 2:
 2a: YYYY-MM-DDTHH:MM:SS
-2b:
-2c:
-2d:
+2a: 2016-02-24T09:55:21 February 24, 2016 at 9:55:21 PM UTC-5
+2b: 2016-02-25T03:00:54,072746412+0000
+2c: 03:01:17 up 5 min,  1 user,  load average: 0.00, 0.00, 0.00
+2d: 
 2e:
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda1      7.8G  1.2G  6.5G  16% /
+devtmpfs        489M   56K  489M   1% /dev
+tmpfs           498M     0  498M   0% /dev/shm
 <put the multi-line output of "df -h" here>
 
 2f: <put the Java version number here here>
+java version "1.7.0_95"
+OpenJDK Runtime Environment (amzn-2.6.4.0.65.amzn1-x86_64 u95-b00)
+OpenJDK 64-Bit Server VM (build 24.95-b01, mixed mode)
+
 2g: <availability zone>
+us-east-1c
+
 2g: <instance-ID>
-2i:
-<put the multi-line traceroute here>
+i-c9070f49
+
+2i:<put the multi-line traceroute here>
+ceroute to www.qwest.net (204.147.80.94), 30 hops max, 60 byte packets
+1  216.182.224.242 (216.182.224.242)  1.498 ms  1.494 ms  1.776 ms
+2  100.64.8.247 (100.64.8.247)  1.933 ms 100.64.8.207 (100.64.8.207)  7.672 ms 100.64.8.247 (100.64.8.247)  2.011 ms
+3  100.64.12.214 (100.64.12.214)  2.812 ms 100.64.12.224 (100.64.12.224)  2.869 ms 100.64.11.88 (100.64.11.88)  1.787 ms
+4  100.65.2.192 (100.65.2.192)  17.954 ms 100.65.2.160 (100.65.2.160)  18.008 ms 100.65.0.224 (100.65.0.224)  12.028 ms
+5  100.66.0.96 (100.66.0.96)  18.659 ms 100.66.0.246 (100.66.0.246)  22.640 ms 100.66.0.112 (100.66.0.112)  21.334 ms
+6  100.66.3.204 (100.66.3.204)  20.192 ms 100.66.2.102 (100.66.2.102)  21.166 ms 100.66.3.108 (100.66.3.108)  12.738 ms
+7  100.66.7.9 (100.66.7.9)  19.497 ms 100.66.7.1 (100.66.7.1)  19.485 ms 100.66.7.231 (100.66.7.231)  18.672 ms
+8  100.66.4.213 (100.66.4.213)  12.276 ms 100.66.4.15 (100.66.4.15)  12.754 ms 100.66.4.69 (100.66.4.69)  22.625 ms
+9  100.65.8.129 (100.65.8.129)  0.554 ms 100.65.9.65 (100.65.9.65)  0.651 ms 100.65.10.1 (100.65.10.1)  5.113 ms
+10  205.251.244.230 (205.251.244.230)  3.720 ms  3.805 ms 205.251.245.40 (205.251.245.40)  1.511 ms
+11  54.239.111.106 (54.239.111.106)  4.095 ms 54.239.111.96 (54.239.111.96)  12.333 ms 54.239.109.182 (54.239.109.182)  3.620 ms
+12  54.239.109.91 (54.239.109.91)  1.770 ms 54.239.109.253 (54.239.109.253)  2.057 ms 54.239.109.91 (54.239.109.91)  1.697 ms
+13  dca2-edge-02.inet.qwest.net (65.126.19.89)  2.096 ms  2.177 ms dca2-edge-01.inet.qwest.net (72.165.86.73)  1.694 ms
+14  min-core-01.inet.qwest.net (67.14.21.110)  31.915 ms  32.228 ms  32.447 ms
+15  min-svcs-02.inet.qwest.net (207.225.159.211)  32.781 ms  32.717 ms  32.188 ms
+16  www.qwest.net (204.147.80.94)  32.680 ms  32.466 ms  32.279 ms
 
 
 
