@@ -3,12 +3,12 @@
 
 # Question #1:
     (instancetype, per-hour-cost)
-1a: (,,)
-1b: (,,)
-1c: (c3.8xlarge,$1.68,$6881.28)
+1a: (r3.xlarge,$0.333,340.992)
+1b: (r3.8xlarge,$2.66,340.48)
+1c: (g2.8xlarge,$2.6,$332.8)
 
 # Question 2:
-2a: YYYY-MM-DDTHH:MM:SS
+    YYYY-MM-DDTHH:MM:SS
 2a: 2016-02-24T09:55:21 February 24, 2016 at 9:55:21 PM UTC-5
 2b: 2016-02-25T03:00:54,072746412+0000
 2c: 03:01:17 up 5 min,  1 user,  load average: 0.00, 0.00, 0.00
@@ -53,8 +53,61 @@ ceroute to www.qwest.net (204.147.80.94), 30 hops max, 60 byte packets
 
 
 # Question 3:
-3a: 
-3b: 
-3c:
+3a: 54.88.229.39,52.90.50.72,54.174.221.233
+3b: 172.31.20.65,172.31.20.66,172.31.20.55
+3c: 
 <put the multi-line output here>
+Configured Capacity: 158801608704 (147.90 GB)
+Present Capacity: 158801608704 (147.90 GB)
+DFS Remaining: 158296706036 (147.43 GB)
+DFS Used: 504902668 (481.51 MB)
+DFS Used%: 0.32%
+Under replicated blocks: 405
+Blocks with corrupt replicas: 0
+Missing blocks: 0
+
+-------------------------------------------------
+Live datanodes (2):
+
+Name: 172.31.20.66:50010 (ip-172-31-20-66.ec2.internal)
+Hostname: ip-172-31-20-66.ec2.internal
+Decommission Status : Normal
+Configured Capacity: 79400804352 (73.95 GB)
+DFS Used: 252364521 (240.67 MB)
+Non DFS Used: 0 (0 B)
+DFS Remaining: 79148439831 (73.71 GB)
+DFS Used%: 0.32%
+DFS Remaining%: 99.68%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Thu Feb 25 22:54:54 UTC 2016
+
+
+Name: 172.31.20.65:50010 (ip-172-31-20-65.ec2.internal)
+Hostname: ip-172-31-20-65.ec2.internal
+Decommission Status : Normal
+Configured Capacity: 79400804352 (73.95 GB)
+DFS Used: 252538147 (240.84 MB)
+Non DFS Used: 0 (0 B)
+DFS Remaining: 79148266205 (73.71 GB)
+DFS Used%: 0.32%
+DFS Remaining%: 99.68%
+Configured Cache Capacity: 0 (0 B)
+Cache Used: 0 (0 B)
+Cache Remaining: 0 (0 B)
+Cache Used%: 100.00%
+Cache Remaining%: 0.00%
+Xceivers: 1
+Last contact: Thu Feb 25 22:54:53 UTC 2016
+
+d:
+16/02/25 22:55:41 INFO client.RMProxy: Connecting to ResourceManager at ip-172-31-20-55.ec2.internal/172.31.20.55:8032
+Total Nodes:2
+         Node-Id             Node-State Node-Http-Address       Number-of-Running-Containers
+ip-172-31-20-66.ec2.internal:8041               RUNNING ip-172-31-20-66.ec2.internal:8042                                  0
+ip-172-31-20-65.ec2.internal:8041               RUNNING ip-172-31-20-65.ec2.internal:8042                                  0
 
