@@ -49,7 +49,7 @@ class First50(MRJob):
     # mapreduce guarentees that only a single reducer will run
     def reducer_init(self):
         self.lowest = []
-
+	
     # reducer adds to the heap. Notice we use
     def reducer(self, _, values):
         for (datetime, line) in values:
@@ -59,7 +59,7 @@ class First50(MRJob):
     def reducer_final(self):
         for (datetime, line) in sorted(self.lowest)[0:50]:
             yield "First50", line
-
+	SORT_VALUES = True
 
 if __name__ == "__main__":
     First50.run()

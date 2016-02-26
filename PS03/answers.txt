@@ -12,7 +12,7 @@
 2a: 2016-02-24T09:55:21 February 24, 2016 at 9:55:21 PM UTC-5
 2b: 2016-02-25T03:00:54,072746412+0000
 2c: 03:01:17 up 5 min,  1 user,  load average: 0.00, 0.00, 0.00
-2d: 
+2d: 12hours02minutes33seconds Total 43533seconds
 2e:
 Filesystem      Size  Used Avail Use% Mounted on
 /dev/xvda1      7.8G  1.2G  6.5G  16% /
