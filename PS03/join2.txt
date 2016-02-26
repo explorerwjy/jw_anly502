@@ -1,0 +1,32 @@
+"Australia"	8
+"Austria"	2
+"Belgium"	51
+"Canada"	17
+"China"	152
+"Croatia"	7
+"Czech Republic"	33
+"Denmark"	1
+"Estonia"	8
+"Finland"	1
+"France"	13
+"Germany"	90
+"Hong Kong"	5
+"India"	1
+"Italy"	11
+"Luxembourg"	3
+"Mexico"	1
+"Monaco"	28
+"Netherlands"	3
+"Norway"	1
+"Panama"	6
+"Republic of Korea"	69
+"Republic of Lithuania"	2
+"Russia"	3
+"Singapore"	5
+"Sweden"	10
+"Switzerland"	9
+"Thailand"	2
+"Turkey"	1
+"Ukraine"	6
+"United Kingdom"	16
+"United States"	534

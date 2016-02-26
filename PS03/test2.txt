@@ -1,0 +1,40 @@
+"Australia"	9
+"Austria"	2
+"Belgium"	61
+"Brazil"	5
+"Bulgaria"	1
+"Canada"	19
+"China"	216
+"Colombia"	1
+"Croatia"	8
+"Czech Republic"	105
+"Denmark"	2
+"Estonia"	8
+"Finland"	1
+"France"	18
+"Germany"	178
+"Hong Kong"	5
+"India"	1
+"Iran"	1
+"Israel"	1
+"Italy"	13
+"Luxembourg"	3
+"Mexico"	2
+"Monaco"	30
+"Netherlands"	10
+"Norway"	1
+"Panama"	6
+"Republic of Korea"	72
+"Republic of Lithuania"	3
+"Romania"	1
+"Russia"	5
+"Singapore"	5
+"Spain"	9
+"Sweden"	27
+"Switzerland"	11
+"Thailand"	2
+"Turkey"	3
+"Ukraine"	9
+"United Kingdom"	35
+"United States"	710
+"Vietnam"	1

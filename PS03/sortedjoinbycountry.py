@@ -7,6 +7,7 @@ import mrjob
 import mrjob.compat
 from mrjob.job import MRJob
 import sys
+from mrjob.step import MRStep
 
 from weblog import Weblog  # imports class defined in weblog.py
 
@@ -35,9 +36,6 @@ class First50Join(MRJob):
             if o.wikipage() == "Main_Page":
                 yield o.ipaddr, line
 
-    # Perform a "first 50" operation in the  join operation
-    def reducer_init(self):
-        self.lowest = []
 
     def reducer(self, key, values):
         # values has all the lines for this key
@@ -51,18 +49,23 @@ class First50Join(MRJob):
                 continue
             # If we get here, v is a logfile line. Parse it again
             o = Weblog(v)
-            self.lowest.append((o.datetime, country, v))
-            self.lowest = sorted(self.lowest)[0:50]
-
-    def reducer_final(self):
-        """Output the lowest 50"""
-        for (datetime, country, line) in self.lowest:
-            yield "First50Geolocated", [datetime,country,line]
+            yield "Geolocated",[o.date,country,v]
 
     # Let MapReduce do the sorting this time!
     # All of the keys are the same, so just take the first 50 values...
-    SORT_VALUES = True
+    #SORT_VALUES = True
+	
 
+    def mapper2(self,key,values):
+		country = values[1]
+		yield country,1
+    def reducer2(self,key,values):
+		yield key,sum(values)
+
+    SORT_VALUES = True	
+	#def mapper3(self,key,values):
+
+    """
     def first50reducer_init(self, key, value):
         self.counter = 0
 
@@ -72,6 +75,13 @@ class First50Join(MRJob):
             if self.counter < 50:
                 self.counter += 1
                 yield key, [date,country,line]
+	"""
+    def steps(self):
+		return [
+				MRStep(mapper=self.mapper,reducer=self.reducer),
+				MRStep(mapper=self.mapper2,reducer=self.reducer2)
+
+				]
 
 
 if __name__ == "__main__":
