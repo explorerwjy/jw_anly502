@@ -13,6 +13,7 @@ from weblog import Weblog  # imports class defined in weblog.py
 
 
 class First50Join(MRJob):
+    SORT_VALUES = True
     def mapper(self, _, line):
         # Is this a weblog file, or a MaxMind GeoLite2 file?
         filename = mrjob.compat.jobconf_from_env("map.input.file")
@@ -57,31 +58,35 @@ class First50Join(MRJob):
 	
 
     def mapper2(self,key,values):
-		country = values[1]
-		yield country,1
+	country = values[1]
+	yield country,1
+    
     def reducer2(self,key,values):
-		yield key,sum(values)
+        yield key,sum(values)
+    
+    def mapper3(self,key,values):
+        yield "sort",(key,values)
 
-    SORT_VALUES = True	
+    def reducer3_init(self):
+        self.lowest = []
+    
+    def reducer3(self,key,values):
+        for (country,num) in values:
+            self.lowest.append((country,num))
+            #self.lowest = sorted(self.lowest)
+    
+    def reducer3_final(self):
+        for (country,num) in sorted(self.lowest):
+            yield country,num 
+    #SORT_VALUES = True	
 	#def mapper3(self,key,values):
 
-    """
-    def first50reducer_init(self, key, value):
-        self.counter = 0
-
-    def first50reducer(self, key, values):
-        # Implement a reducer that only outputs for the first 50...
-        for (date, country, line) in values:
-            if self.counter < 50:
-                self.counter += 1
-                yield key, [date,country,line]
-	"""
     def steps(self):
 		return [
 				MRStep(mapper=self.mapper,reducer=self.reducer),
-				MRStep(mapper=self.mapper2,reducer=self.reducer2)
-
-				]
+				MRStep(mapper=self.mapper2,reducer=self.reducer2),
+                                MRStep(mapper=self.mapper3,reducer_init=self.reducer3_init,reducer=self.reducer3,reducer_final=self.reducer3_final),
+			]
 
 
 if __name__ == "__main__":

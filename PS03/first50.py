@@ -24,26 +24,28 @@ class First50(MRJob):
     # (We don't use Python's heap, because it is a maxheap)
     # mapper_final sends them to the reducer
     # The mapper runs on all of the nodes, finding the first 50 of all the splits
-
+    
     def mapper_init(self):
         self.lowest = []
-
+    
     def mapper(self, _, line):
         try:
             o = Weblog(line)
         except ValueError:
             sys.stderr.write("Invalid logfile line: {}\n".format(line))
             return
+            
 
         # See if this is the desired URL
         if o.wikipage() == "Main_Page":
             self.lowest.append((o.datetime, line))
             self.lowest = sorted(self.lowest)[0:50]  # keep just the first 50
-
+            #yield "First50",line
+    
     def mapper_final(self):
         for (datetime, line) in self.lowest:
             yield "First50", (datetime, line)
-
+    
     # The reducer maintains also uses a list to get the first 50
     # Because all of the lines come through with the same key,
     # mapreduce guarentees that only a single reducer will run
@@ -59,7 +61,7 @@ class First50(MRJob):
     def reducer_final(self):
         for (datetime, line) in sorted(self.lowest)[0:50]:
             yield "First50", line
-	SORT_VALUES = True
+    #SORT_VALUES = True
 
 if __name__ == "__main__":
     First50.run()
