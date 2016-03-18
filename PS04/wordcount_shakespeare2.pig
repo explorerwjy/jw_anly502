@@ -15,7 +15,7 @@ shakespeare = LOAD 's3://gu-anly502/ps04/Shakespeare.txt' as (line:chararray);
 -- YOUR CODE GOES HERE
 words = foreach shakespeare generate flatten(TOKENIZE(line)) as word;
 lower_words = foreach words generate LOWER(word) as low_word;
-grouped = GRUOP lower_words by low_word;
+grouped = GROUP lower_words BY low_word;
 wordcount = foreach grouped generate group, COUNT(lower_words);
 sorted_words = ORDER wordcount BY $1 DESC;
 sorted_words20 = limit sorted_words 20;
@@ -27,4 +27,4 @@ STORE sorted_words20 INTO 'sorted_words2' USING PigStorage();
  
 -- Get the results
 --
-fs -getmerge sorted_words2 wordcount_shakespeare.txt
+fs -getmerge sorted_words2 wordcount_shakespeare2.txt

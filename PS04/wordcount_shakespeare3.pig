@@ -15,7 +15,7 @@ shakespeare = LOAD 's3://gu-anly502/ps04/Shakespeare.txt' as (line:chararray);
 -- YOUR CODE GOES HERE
 words = foreach shakespeare generate flatten(TOKENIZE(line)) as word;
 lower_words = foreach words generate LOWER(word) as low_word;
-h_words = FILTER lower_words BY (low_word MATCHES '^e.*');
+h_words = FILTER lower_words BY (low_word MATCHES '^h.*');
 grouped = GROUP h_words BY low_word;
 wordcount = foreach grouped generate group, COUNT(h_words);
 sorted_words = ORDER wordcount BY $1 DESC;

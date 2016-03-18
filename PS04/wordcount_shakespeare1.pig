@@ -14,7 +14,8 @@ shakespeare = LOAD 's3://gu-anly502/ps04/Shakespeare.txt' as (line:chararray);
 -- YOUR CODE GOES HERE
 words = foreach shakespeare generate flatten(TOKENIZE(line)) as word;
 grouped = GROUP words by word;
-wordcount = foreach grouped generate gruop, COUNT(words);
+wordcount = foreach grouped generate group, COUNT(words);
+--dump wordcount;
 sorted_words = ORDER wordcount BY $1 DESC;
 sorted_words20 = limit sorted_words 20;
 --dump sorted_words20;
