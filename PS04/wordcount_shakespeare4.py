@@ -16,7 +16,11 @@ from pyspark import SparkContext
 
 def isokay(ch):
     return ch in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 '
-
+def check(var):
+    print "\n\n\n"
+    for item in var:
+        print item
+    print "\n\n\n"
 if __name__ == "__main__":
     
     ##
@@ -32,12 +36,14 @@ if __name__ == "__main__":
     sc     = SparkContext( appName="Shakespeare Count" )
     ## YOUR CODE GOES HERE
     lines  = sc.textFile( infile )
-	lines2 = lines.filter(isokay)
-	lines3 = lines2.map(lambda x:x.lower())
-	words = lines3.flatMap(lambda x:x.split(" "))
-	result = words.map(lambda x :(x,1)).reduceByKey(lambda x,y :x+y)
-	tmp_top40counts = result.map(lambda x:(x[1],x[0])).sortByKey(False).take(40)
-	top40counts = result.map(lambda x:(x[1],x[0]))
+    #lines2 = lines.map(lambda x:isokey(x))
+    #check(lines2.take(10))
+    lines3 = lines.map(lambda x:x.lower())
+    words = lines3.flatMap(lambda x:x.split(" "))
+    result = words.map(lambda x :(x,1)).reduceByKey(lambda x,y :x+y)
+    #check(result.take(40))
+    tmp_topcounts = result.map(lambda x:(x[1],x[0])).sortByKey(False)
+    top40counts = tmp_topcounts.map(lambda x:(x[1],x[0])).take(40)
     ## PUT YOUR RESULTS IN top40counts
 
     with open("wordcount_shakespeare4.txt","w") as fout:
