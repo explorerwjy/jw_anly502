@@ -36,7 +36,7 @@ if __name__ == "__main__":
     date = datetime.map(lambda x:'-'.join(x.split('-')[0:2]))
     pairs1 = date.map(lambda x:(x,1))
     pairs2 = pairs1.reduceByKey(lambda x,y:x+y)
-    counts = pairs2.sortByKey(False).collect()
+    counts = pairs2.sortByKey(True).collect()
     ## PUT YOUR RESULTS IN counts
 
     #x = []

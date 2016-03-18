@@ -36,19 +36,15 @@ logs_base =
      );
 
 -- YOUR CODE GOES HERE
-logs = foreach logs_base generate ToDate(datetime_str,'dd/MMM/yyyy:HH:mm:ss Z') as (date, host, url, size);
-logs2 = foreach logs generate SUBSTRING(ToString(date),0,10) as (date,host,url,size);
--- logs3 = FILTER logs2 BY ($0 MATCHES '^2012*');
--- dump logs3;
-logs4 = foreach logs2 generate FLATTEN (REGEX_EXTRACT_ALL(url,'(index.php\?title=|/wiki/)([^ &]*)')) AS wikipage;
--- dump logs4;
--- logs5 = FILTER logs4 BY ($0 == NULL);
--- by_wiki = GROUP logs5 BY $0;
--- wiki_count = foreach by_wiki generate group as wikipage,COUNT(logs5);
--- forensicswiki_page = ORDER wiki_count BY $1 DESC;
--- my_output = limit forensicswiki_page 20;
+logs = foreach logs_base generate ToDate(SUBSTRING(datetime_str,0,11),'dd/MMM/yyyy') as date, host, url, size;
+logs2 = foreach logs generate SUBSTRING(ToString(date),0,10) as date,host,url,size;
+logs3 = foreach logs2 generate REGEX_EXTRACT_ALL(date, '(2012.*)') AS date,host,url,size;
+logs4 = foreach logs2 generate REGEX_EXTRACT_ALL(url,'(index.php\\?title=|/wiki/)([^ &]*)') AS date,host,url,size;
+by_wiki = GROUP logs4 BY url;
+wiki_count = foreach by_wiki generate group as wikipage,COUNT(logs4);
+forensicswiki_page = ORDER wiki_count BY $1 DESC;
+my_output = limit forensicswiki_page 20;
 -- dump my_output;
-my_output = logs2;
 -- PUT YOUR RESULTS IN output
 
 -- store output INTO 'forensicswiki_page_top20' USING PigStorage();

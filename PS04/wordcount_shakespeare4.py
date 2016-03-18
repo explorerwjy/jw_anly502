@@ -39,11 +39,11 @@ if __name__ == "__main__":
     #lines2 = lines.map(lambda x:isokey(x))
     #check(lines2.take(10))
     lines3 = lines.map(lambda x:x.lower())
-    words = lines3.flatMap(lambda x:x.split(" "))
+    words = lines3.flatMap(lambda x:x.split(" ")).map(lambda word: filter (unicode.isalpha,word))
     result = words.map(lambda x :(x,1)).reduceByKey(lambda x,y :x+y)
     #check(result.take(40))
     tmp_topcounts = result.map(lambda x:(x[1],x[0])).sortByKey(False)
-    top40counts = tmp_topcounts.map(lambda x:(x[1],x[0])).take(40)
+    top40counts = tmp_topcounts.map(lambda x:(x[1],x[0])).take(41)
     ## PUT YOUR RESULTS IN top40counts
 
     with open("wordcount_shakespeare4.txt","w") as fout:
