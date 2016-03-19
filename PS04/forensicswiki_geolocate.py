@@ -17,10 +17,42 @@ def check(tmp):
         print i
 def get_ip_url(line):
     return 0
-    
-def bsearch(x,lookup):
-    ip = x
+def get_var_nn(x):
+    tmp = x.split('/')
+    return tmp
+def mask(a,nn):
+    a >> 32-nn        
 
+def compare(a,b):
+    tmp = get_var_nn(b)
+    var,nn=tmp[0],tmp[1]
+    a = int(a)
+    var = int(var)
+    nn = int(nn)
+    a = mask(a,nn)
+    if a > var:
+        return 'larger'
+    if a < var:
+        return 'small'
+    if a == var:
+        return 'match'
+        
+def bsearch(x,lookup):
+    start = 0
+    end = len(lookup)-1
+    mid = (start+end)/2
+    while start<end:
+        flag = compare(x,lookup[mid][0])
+        if flag == 'larger':
+            start = mid
+            end = end
+        elif flag == "small":
+            start = start
+            end = mid
+        elif flag == "match":
+            return lookup[mid][1]
+    return lookup[start][1]
+    
     return 0    
 def change_to_integer(x):
     #x[0] ip x[1] country
@@ -46,7 +78,8 @@ if __name__ == "__main__":
         #country_ip = country_ip.map(lanbda x: "/".join(ip2long(x[0].split('/')[0]), x[0].split('/')[1]),x[1])
         country_ip = country_ip.map(lambda x:change_to_integer(x)).sortByKey(True)
         tmp = country_ip.collect()
-        check(tmp)
+        #check(tmp)
+        print tmp
         #check(tmp)
         #send this structure to all nodes
         lookup = sc.broadcast(tmp) 
@@ -55,8 +88,10 @@ if __name__ == "__main__":
 	#Forenisicswiki data for 2012
 	wiki = sc.textFile(wiki_path)
         wiki_data = wiki.map(lambda x:x.split()[0])
-        check(wiki_data.take(10))
-        match_each_ip = wiki_data(lambda x : bsearch(x,lookup),1)
+        match_each_ip = wiki_data.map(lambda x : (bsearch(x,lookup.value),1))
+        match_2 = match_each_ip.reduceByKey(lambda x,y:x+y)
+        counts = match_2.sortByKey(False).collect()
+        check(counts)
         
 
 
