@@ -21,12 +21,12 @@ def get_var_nn(x):
     tmp = x.split('/')
     return tmp
 def mask(a,nn):
-    a >> 32-nn        
+    return a >> 32-nn        
 
 def compare(a,b):
     tmp = get_var_nn(b)
     var,nn=tmp[0],tmp[1]
-    a = int(a)
+    a = int(ip2long(a))
     var = int(var)
     nn = int(nn)
     a = mask(a,nn)
@@ -41,14 +41,16 @@ def bsearch(x,lookup):
     start = 0
     end = len(lookup)-1
     mid = (start+end)/2
-    while start<end:
+    while start < end:
         flag = compare(x,lookup[mid][0])
         if flag == 'larger':
-            start = mid
+            start = mid+1
             end = end
+            mid = (start+end)/2
         elif flag == "small":
             start = start
-            end = mid
+            end = mid-1
+            mid = (start+end)/2
         elif flag == "match":
             return lookup[mid][1]
     return lookup[start][1]
@@ -61,7 +63,8 @@ def change_to_integer(x):
     return integer+'/'+nn,x[1]
 
 if __name__ == "__main__":
-	wiki_path = 's3://gu-anly502/ps03/forensicswiki.2012-01.unzipped/access.log.2012-01-01'
+        wiki_path = 's3://gu-anly502/ps03/forensicswiki.2012-01.unzipped/access.log.2012-01-01'
+        #wiki_path = 's3://gu-anly502/ps03/forensicswiki.2012-01.unzipped/access.log.2012-01-??'
 	#wiki_path = 's3://gu-anly502/ps03/forensicswiki.2012.txt'
 	path1 = 's3://gu-anly502/maxmind/GeoLite2-Country-Blocks-IPv4.csv'
 	path2 = 's3://gu-anly502/maxmind/GeoLite2-Country-Locations-en.csv'
@@ -79,7 +82,7 @@ if __name__ == "__main__":
         country_ip = country_ip.map(lambda x:change_to_integer(x)).sortByKey(True)
         tmp = country_ip.collect()
         #check(tmp)
-        print tmp
+        #print tmp
         #check(tmp)
         #send this structure to all nodes
         lookup = sc.broadcast(tmp) 
@@ -91,8 +94,10 @@ if __name__ == "__main__":
         match_each_ip = wiki_data.map(lambda x : (bsearch(x,lookup.value),1))
         match_2 = match_each_ip.reduceByKey(lambda x,y:x+y)
         counts = match_2.sortByKey(False).collect()
+        print "=================================="
         check(counts)
         
+        print "=================================="
 
 
 
