@@ -1,0 +1,8 @@
+Find the logfile lines that contain this request and report:
+• Are the attacks from one IP address, or many?
+• When did the attacks take place? 
+• Are there other attacks from the same IP addresses? (If there is more than 1, investigate 3 of them.) 
+
+Your answer goes here:
+
+
