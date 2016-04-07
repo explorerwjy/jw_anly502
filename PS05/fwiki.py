@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 
-import pytest
+#import pytest
 from pyspark import SparkContext,HiveContext
 
 ################################################################
