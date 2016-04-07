@@ -23,7 +23,7 @@ WITH SERDEPROPERTIES (
 )
 STORED AS TEXTFILE
 LOCATION 's3://gu-anly502/ps05/forensicswiki/2012/';
---LOCATION 's3://gu-anly502/ps05/forensicswiki/2012/12/';
+-- LOCATION 's3://gu-anly502/ps05/forensicswiki/2012/12/';
 
 DROP TABLE IF EXISTS bot_logs;
 create temporary table bot_logs (
@@ -40,6 +40,8 @@ insert overwrite table bot_logs
          instr(lower(agent),"bot")>0
   from raw_logs;
 
+--select * from bot_logs where bot limit 3;
+--select * from bot_logs where not bot limit 3;
 
 create temporary table bot_stats (
   yearmonth string,
@@ -52,7 +54,16 @@ create temporary table bot_stats (
 );
 
 insert overwrite table bot_stats
-YOUR CODE GOES HERE
+select 
+substr(date,1,10),
+	count(*),
+	sum(IF(bot,1,0)),
+	sum(IF(bot,0,1)),
+	sum(size),
+	sum(IF(bot,size,0)),
+	sum(IF(bot,0,size))
+	from bot_logs
+	group by substr(date,1,10);
 
-select yearmonth,botcount,nonbotcount from bot_stats order by yearmonth;
-
+-- select yearmonth,botcount,nonbotcount from bot_stats order by yearmonth;
+select yearmonth,count,botcount,nonbotcount,size,botsize,nonbotsize from bot_stats order by yearmonth;

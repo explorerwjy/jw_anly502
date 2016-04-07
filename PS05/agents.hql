@@ -21,7 +21,7 @@ WITH SERDEPROPERTIES (
 )
 STORED AS TEXTFILE
 LOCATION 's3://gu-anly502/ps05/forensicswiki/2012/';
---LOCATION 's3://gu-anly502/ps05/forensicswiki/2012/12/';
+-- LOCATION 's3://gu-anly502/ps05/forensicswiki/2012/12/';
 
 DROP TABLE IF EXISTS agent_logs;
 create temporary table agent_logs (
@@ -32,14 +32,35 @@ create temporary table agent_logs (
 );
 
 insert overwrite table agent_logs
--- YOUR CODE GOES HERE
+select 
+from_unixtime(unix_timestamp(rawdatetime, "[dd/MMM/yyyy:HH:mm:ss Z]")),
+agent,
+if ( instr(lower(agent),"windows")>0, "windows",if ( instr(lower(agent),"mac")>0, "mac",if ( instr(lower(agent), "linux")>0, "linux",""))),
+instr(lower(agent),"bot")>0
+from raw_logs;
+
+-- select * from agent_logs limit 5;
 
 -- Section #1:
-select YOUR CODE GOES HERE
+select 
+os,
+count(*) as num_of_hits
+from agent_logs
+where (os='windows' or os='mac' or os='linux')
+group by os;
 
 -- Section #2: Provide 5 agents for which the OS could not be classified that are bots
-select YOUR CODE GOES HERE
+select 
+agent as Bot_agent,count(*) as number_of_hits
+from agent_logs 
+where os='' and bot=True and length(agent)>5 and length(agent)<15 
+group by agent
+limit 5;
 
 -- Section #3: Provide 5 agents for which the OS could not be classified that are not bots.
-select YOUR CODE GOES HERE
-
+select
+agent as non_Bot_agent,count(*) as number_of_hits
+from agent_logs 
+where os='' and bot=False and length(agent)>5 and length(agent)<15 
+group by agent
+limit 5;
