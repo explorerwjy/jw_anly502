@@ -13,10 +13,12 @@ if __name__=="__main__":
     for line in open("botstats.txt"):
         line = line.replace(" ","")
         vals = line.split("|")
-        (month,nonbot,bot) = vals[1:4]
+        #print vals
+        (month,nonbot,bot) = vals[1],vals[3],vals[4]
         months.append(month)
         nonbots.append(int(nonbot))
         bots.append(int(bot))
+
 
     count = len(months)         # number of bar groups to plot
     ind   = np.arange(count)    # The X locations for the groups
@@ -25,7 +27,7 @@ if __name__=="__main__":
     print("ind=",ind)
     print("nonbot=",nonbots)
     rects1 = ax.bar(ind, nonbots, width, color='y')
-    rects2 = ax.bar(ind+width, bots, width, color='r')
+    rects2 = ax.bar(ind+width, bots, width, color='b')
     
     # add some text
     ax.set_ylabel("Number of hits")
@@ -38,7 +40,7 @@ if __name__=="__main__":
     for label in ax.get_xticklabels():
         label.set_rotation(45)
     
-
+    #plt.show()
     # Saving the figure causes all of the plot commands to be executed
     plt.savefig("botstats.pdf")
 
